@@ -38,7 +38,6 @@ const els = {
 
   diceScene: $("#diceScene"),
   dice: $("#dice"),
-  motionPermBtn: $("#motionPermBtn"),
   rollHint: $("#rollHint"),
 };
 
@@ -321,27 +320,28 @@ function updateAll() {
 }
 
 function init() {
-  // Start with splash screen, then move to select
+  // Start with splash screen; click to move to select
   showScreen("first");
-  window.setTimeout(() => {
+  els.screenFirst.addEventListener("click", () => {
     showScreen("select");
-  }, 1000);
+  });
 
   renderTiles();
   updateDiceFaces();
   setDiceRotation(currentRx, currentRy, true);
 
-  els.goRollBtn.addEventListener("click", () => {
+  els.goRollBtn.addEventListener("click", async () => {
     if (selected.length !== 6) return;
-    showScreen("roll");
-    updateDiceFaces();
-
     if (supportsMotionPermission()) {
-      els.motionPermBtn.hidden = false;
+      // iOS: 권한 요청을 버튼 클릭 제스처 안에서 처리
+      await requestMotionPermission();
     } else {
-      els.motionPermBtn.hidden = true;
+      // 그 외 환경: 별도 권한 없이 바로 모션 활성화 시도
       enableMotion();
     }
+
+    showScreen("roll");
+    updateDiceFaces();
   });
 
   els.backBtn.addEventListener("click", () => {
@@ -355,7 +355,6 @@ function init() {
   els.diceScene.addEventListener("click", onDiceActivate);
   els.diceScene.addEventListener("pointerdown", onDiceActivate, { passive: false });
   els.diceScene.addEventListener("touchend", onDiceActivate, { passive: false });
-  els.motionPermBtn.addEventListener("click", requestMotionPermission);
 
   window.addEventListener("keydown", (e) => {
     if (e.code !== "Space") return;

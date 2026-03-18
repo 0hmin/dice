@@ -74,13 +74,18 @@ textarea {
     background: var(--deskBg);
   }
   .desk {
-    padding: 28px 0;
+    padding: 0;
+    /* 상단 정렬, 가운데 정렬 – 위 여백 제거 */
+    align-items: start;
+    justify-items: center;
     background: var(--deskBg);
   }
   .phone {
     width: var(--phoneW);
-    height: var(--phoneH);
-    border-radius: var(--radiusPhone);
+    max-height: 90vh;
+    aspect-ratio: 393 / 852;
+    height: auto;
+    border-radius: 0;
     box-shadow: var(--shadowPhone);
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -113,14 +118,27 @@ textarea {
 
 .firstImg {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   width: 100%;
   height: auto;
   display: block;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.firstClickHint {
+  position: absolute;
+  top: 80%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
+  pointer-events: none;
 }
 
 /* Roll screen: center dice vertically */
