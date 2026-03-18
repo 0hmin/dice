@@ -269,13 +269,10 @@ async function requestMotionPermission() {
   try {
     const res = await window.DeviceMotionEvent.requestPermission();
     if (res === "granted") {
-      els.rollHint.textContent = "흔들기 감지 켜짐";
       enableMotion();
-    } else {
-      els.rollHint.textContent = "권한이 거부되어 버튼으로 굴려주세요.";
     }
   } catch {
-    els.rollHint.textContent = "권한 요청에 실패했어요. 버튼으로 굴려주세요.";
+    // Keep the original hint text unchanged.
   }
 }
 
