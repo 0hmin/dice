@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <title>주사위</title>
+    <link
+      rel="preload"
+      href="./OwnglyphUNZ.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="desk">
+      <div class="phone" role="application" aria-label="주사위 앱">
+        <div class="screen" id="screenFirst" data-screen="first">
+          <img
+            class="firstImg"
+            src="./firstscreen.png"
+            alt=""
+            draggable="false"
+          />
+        </div>
+
+        <div class="screen" id="screenSelect" data-screen="select">
+          <div class="selectLayout" aria-label="문구 24개 목록">
+            <header class="selectHeader">
+              <div class="tilesHeader">
+                <div class="tilesTitle">주사위 문구를 골라봐!</div>
+                <div class="tilesCount" aria-hidden="true"><span id="selectedCount">0</span>/6</div>
+              </div>
+            </header>
+
+            <main class="selectScroll" aria-label="문구 타일 스크롤 영역">
+              <div id="tiles" class="tiles" aria-label="문구 타일"></div>
+            </main>
+
+            <footer class="selectFooter">
+              <button id="goRollBtn" class="primaryCta" type="button" disabled>
+                굴리자!
+              </button>
+            </footer>
+          </div>
+        </div>
+
+        <div class="screen" id="screenRoll" data-screen="roll" hidden>
+          <div class="rollTop">
+            <button id="backBtn" class="iconBtn" type="button" aria-label="뒤로가기">
+              <img class="iconImg" src="./pre.png" alt="" draggable="false" />
+            </button>
+          </div>
+
+          <div class="rollMid">
+            <div id="diceScene" class="diceScene" aria-label="주사위 굴리기">
+              <div id="dice" class="dice" role="img" aria-label="주사위">
+                <div class="face face--front"><span class="faceText"></span></div>
+                <div class="face face--back"><span class="faceText"></span></div>
+                <div class="face face--right"><span class="faceText"></span></div>
+                <div class="face face--left"><span class="faceText"></span></div>
+                <div class="face face--top"><span class="faceText"></span></div>
+                <div class="face face--bottom"><span class="faceText"></span></div>
+              </div>
+            </div>
+
+            <div class="rollHint" id="rollHint">
+              주사위를 터치하거나 휴대폰을 흔들어 굴려봐!
+            </div>
+
+            <div class="rollActions">
+              <button id="motionPermBtn" class="ghostBtn" type="button" hidden>모션 권한</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

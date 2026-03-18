@@ -1,0 +1,468 @@
+:root {
+  --deskBg: #ffffff;
+  --phoneW: 393px;
+  --phoneH: 852px;
+
+  --orange: #ff4915;
+  --tileOff: #dadada;
+  --tileOn: #f3ff47;
+  --inkDark: rgba(15, 15, 15, 0.92);
+  --inkLight: rgba(255, 255, 255, 0.92);
+  --inkLightMuted: rgba(255, 255, 255, 0.78);
+
+  --shadowPhone: 0 30px 90px rgba(0, 0, 0, 0.16);
+  --radiusPhone: 32px;
+  --radiusUi: 18px;
+
+  --dice: 120px;
+}
+
+@font-face {
+  font-family: "온글잎언즈체";
+  src: url("./OwnglyphUNZ.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--orange);
+  font-family: "온글잎언즈체", ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--inkDark);
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+.desk {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--orange);
+}
+
+.phone {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--orange);
+  overflow: hidden;
+}
+
+@media (min-width: 980px) {
+  html,
+  body {
+    overflow: hidden;
+  }
+  body {
+    background: var(--deskBg);
+  }
+  .desk {
+    padding: 28px 0;
+    background: var(--deskBg);
+  }
+  .phone {
+    width: var(--phoneW);
+    height: var(--phoneH);
+    border-radius: var(--radiusPhone);
+    box-shadow: var(--shadowPhone);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure hidden screens never render */
+.screen[hidden] {
+  display: none !important;
+}
+
+/* Prevent outer page scrolling on mobile; scroll only inner areas */
+.phone,
+#screenSelect,
+#screenRoll {
+  height: 100dvh;
+}
+
+/* ---------- First screen ---------- */
+#screenFirst {
+  position: relative;
+  height: 100dvh;
+  background: var(--orange);
+}
+
+.firstImg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Roll screen: center dice vertically */
+#screenRoll {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--orange);
+  background-image: url("./background.png"), url("./assets/background.png");
+  background-repeat: no-repeat;
+  background-position: center center, center center;
+  background-size: 100% auto, 100% auto;
+}
+
+/* ---------- Select screen ---------- */
+.selectLayout {
+  position: relative;
+  height: 100%;
+  min-height: 100dvh;
+  padding: 0;
+}
+
+@media (min-width: 980px) {
+  .selectLayout {
+    min-height: 100%;
+  }
+}
+
+.selectHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 100px;
+  display: grid;
+  align-items: center;
+  background: var(--orange);
+}
+
+.selectScroll {
+  position: absolute;
+  top: 100px;
+  bottom: 100px;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 45px;
+}
+
+.selectScroll::-webkit-scrollbar {
+  width: 10px;
+}
+.selectScroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+.selectScroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.selectFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 100px;
+  display: grid;
+  align-items: center;
+  padding: 0 18px;
+  background: var(--orange);
+}
+
+.selectFooter .primaryCta {
+  height: 70%;
+  width: 320px;
+  justify-self: center;
+  padding: 0 14px;
+  font-size: 32px;
+}
+
+.tilesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--inkLight);
+}
+
+.tilesTitle {
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  text-align: center;
+  font-size: 40px;
+  line-height: 1.1;
+  padding: 0;
+}
+
+.tilesCount {
+  display: none;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 6px;
+  justify-content: center;
+  padding: 6px 0 20px;
+}
+
+.tile {
+  width: 100px;
+  height: 100px;
+  border-radius: 2px;
+  border: 0;
+  background: var(--tileOff);
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  transition: transform 120ms ease, filter 120ms ease, background 120ms ease;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  line-height: 1.05;
+  font-family: inherit;
+}
+
+.tile:active {
+  transform: scale(0.98);
+}
+
+.tile--selected {
+  background: var(--tileOn);
+}
+
+.tileText {
+  padding: 10px 8px;
+  font-family: "온글잎언즈체", ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.72);
+  white-space: pre-line;
+}
+
+.tile--selected .tileText {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.tileBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: #000;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tile--selected .tileBadge {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.primaryCta {
+  appearance: none;
+  border: 0;
+  width: 100%;
+  border-radius: 0;
+  padding: 18px 14px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+  color: #fff;
+  background: #000;
+  box-shadow: none;
+  transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+}
+
+.primaryCta:active {
+  transform: translateY(1px);
+}
+
+/* ---------- Roll screen ---------- */
+.rollTop {
+  padding: 18px 14px 6px;
+}
+
+.iconBtn {
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  font-weight: 900;
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+}
+
+.iconImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.rollMid {
+  flex: 1;
+  padding: 10px 18px 18px;
+  display: grid;
+  gap: 16px;
+  place-items: center;
+  align-content: center;
+  position: relative;
+}
+
+.diceScene {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  perspective: 950px;
+  padding: 12px 0 10px;
+}
+
+.dice {
+  width: var(--dice);
+  height: var(--dice);
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-18deg) rotateY(28deg);
+  transition: transform 2000ms cubic-bezier(0.2, 0.85, 0.2, 1);
+  will-change: transform;
+  cursor: pointer;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  --faceR: 8px;
+  --faceLine: rgba(0, 0, 0, 0.12);
+  border-radius: var(--faceR);
+  border: 0;
+  background-color: var(--tileOn);
+  /* Draw straight edge lines only (no corners) */
+  background-image: linear-gradient(var(--faceLine), var(--faceLine)),
+    linear-gradient(var(--faceLine), var(--faceLine)),
+    linear-gradient(var(--faceLine), var(--faceLine)),
+    linear-gradient(var(--faceLine), var(--faceLine));
+  background-size: calc(100% - (var(--faceR) * 2)) 1px,
+    calc(100% - (var(--faceR) * 2)) 1px,
+    1px calc(100% - (var(--faceR) * 2)),
+    1px calc(100% - (var(--faceR) * 2));
+  background-position: center top, center bottom, left center, right center;
+  background-repeat: no-repeat;
+  box-shadow: none;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  pointer-events: none;
+}
+
+.faceText {
+  color: rgba(0, 0, 0, 0.92);
+  font-family: "온글잎언즈체", ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1.15;
+  text-align: center;
+  white-space: pre-line;
+  pointer-events: none;
+}
+
+.face--front {
+  transform: translateZ(calc(var(--dice) / 2));
+}
+.face--back {
+  transform: rotateY(180deg) translateZ(calc(var(--dice) / 2));
+}
+.face--right {
+  transform: rotateY(90deg) translateZ(calc(var(--dice) / 2));
+}
+.face--left {
+  transform: rotateY(-90deg) translateZ(calc(var(--dice) / 2));
+}
+.face--top {
+  transform: rotateX(90deg) translateZ(calc(var(--dice) / 2));
+}
+.face--bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--dice) / 2));
+}
+
+.rollHint {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  padding: 0 18px;
+  color: var(--inkLightMuted);
+  font-weight: 800;
+  font-size: 24px;
+  text-align: center;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.rollActions {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+}
+
+.ghostBtn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--inkLight);
+  border-radius: 18px;
+  padding: 12px 14px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+@media (max-width: 430px) {
+  :root {
+    --dice: 110px;
+  }
+  .tileText { font-size: 17px; }
+}
