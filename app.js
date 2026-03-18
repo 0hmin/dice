@@ -62,6 +62,8 @@ let currentRx = -18;
 let currentRy = 28;
 let isRolling = false;
 let pendingRoll = false;
+let lastDiceActivateAt = 0;
+const DICE_ACTIVATE_DEBOUNCE_MS = 450;
 
 let motionOn = false;
 let lastShakeAt = 0;
@@ -255,6 +257,9 @@ function onDiceActivate(e) {
   if (els.screenRoll.hidden) return;
   // Avoid interpreting the gesture as scroll/zoom on mobile.
   if (typeof e.preventDefault === "function") e.preventDefault();
+  const now = Date.now();
+  if (now - lastDiceActivateAt < DICE_ACTIVATE_DEBOUNCE_MS) return;
+  lastDiceActivateAt = now;
   rollDice();
 }
 
@@ -346,10 +351,8 @@ function init() {
     disableMotion();
   });
 
-  els.dice.addEventListener("click", onDiceActivate);
   els.dice.addEventListener("pointerdown", onDiceActivate, { passive: false });
   els.dice.addEventListener("touchend", onDiceActivate, { passive: false });
-  els.diceScene.addEventListener("click", onDiceActivate);
   els.diceScene.addEventListener("pointerdown", onDiceActivate, { passive: false });
   els.diceScene.addEventListener("touchend", onDiceActivate, { passive: false });
 
